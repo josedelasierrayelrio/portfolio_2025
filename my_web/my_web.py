@@ -125,7 +125,7 @@ class Main:
             rx.text(
                 "👋🏼",
                 size="7",
-                style={"border": "1px solid green"},
+                style=wave,
             ),
             wrap="wrap",
             style={"border": "1px solid green"},

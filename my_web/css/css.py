@@ -59,3 +59,11 @@ dots: dict = {
     },
     "animation": "dots 4s linear infinite alternate-reverse both"
 }
+
+wave: dict = {
+    "@keyframes wave": {
+        "0%": {"transform": "rotate(15deg)"},
+        "100%": {"transform": "rotate(-25deg)"}
+    },
+    "animation": "wave 0.8s cubic-bezier(0.9, 0.9, 0.9, 0.9) infinite alternate-reverse both"
+}
