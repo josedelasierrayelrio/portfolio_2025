@@ -22,13 +22,9 @@ class Header:
         def creation_menu_item_language(language: str):
             dict_lang: dict = get_selected_languages(language)
             lang = str(get_selected_languages(language)[language])
-            print(lang)
-            print(dict_lang)
-            print(dict_lang[language]["language"])
-            print(dict_lang[language]["shortcut"])
             return rx.menu.item(
-                dict_lang[language]["language"],
-                shortcut=dict_lang[language]["shortcut"].upper(),
+                rx.text(dict_lang[language]["language"]),
+                # shortcut=dict_lang[language]["shortcut"].upper(),
                 on_click=State.set_language(language),
             )
 
