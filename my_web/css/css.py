@@ -40,14 +40,22 @@ css: dict = {
     "button": {
         "background": "transparent",
     },
+}
+
+dots: dict = {
     "dots_background": {
         "light": {
-            "background": "radial-gradient(circle, rgba(0,0,0,0.09) 1px, transparent 1px)",
+            "background": "radial-gradient(circle, rgba(0,0,0,0.09) 1.5px, transparent 1px)",
             "background_size": "30px 30px",
         },
         "dark": {
-            "background": "radial-gradient(circle, rgba(255,255,255,0.09) 1px, transparent 1px)",
+            "background": "radial-gradient(circle, rgba(255,255,255,0.09) 1.5px, transparent 1px)",
             "background_size": "30px 30px",
         },
     },
+    "@keyframes dots": {
+        "0%": {"background_position": "0 0"},
+        "100%": {"background_position": "40px 40px"}
+    },
+    "animation": "dots 4s linear infinite alternate-reverse both"
 }

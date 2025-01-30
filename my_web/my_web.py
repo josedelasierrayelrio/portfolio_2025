@@ -29,7 +29,7 @@ class Header:
             )
 
         self.email = rx.stack(
-            rx.hstack( 
+            rx.hstack(
                 rx.icon(
                     tag="mail",
                     size=16,
@@ -127,6 +127,7 @@ class Main:
                 size="7",
                 style={"border": "1px solid green"},
             ),
+            wrap="wrap",
             style={"border": "1px solid green"},
             spacing="3",
         )
@@ -150,25 +151,33 @@ def landing() -> rx.Component:
     header = Header().build()
     main = Main().build()
 
-    return rx.box(
-        rx.vstack(
-            header,
-            main,
-            style=css.get("header"),
-            background=rx.color_mode_cond(
-                light=css.get("dots_background")["light"]["background"],
-                dark=css.get("dots_background")["dark"]["background"],
-            ),
-            background_size=rx.color_mode_cond(
-                light=css.get("dots_background")["light"]["background_size"],
-                dark=css.get("dots_background")["dark"]["background_size"],
-            ),
-            background_color=rx.color_mode_cond(light="#F5F2EA", dark="#141618"),
-            height="100vh",
-            width="100%",
+    animation_styles = {
+        "@keyframes dots": {
+            "0%": {"background-position": "0 0"},
+            "100%": {"background-position": "40px 40px"}
+        }
+    }
+
+    combined_styles = {
+        **css.get("header"),
+        **animation_styles,
+        "animation": "dots 6s linear infinite alternate-reverse both",
+        "-webkit-animation": "dots 6s linear infinite alternate-reverse both"
+    }
+
+    return rx.vstack(
+        header,
+        main,
+        style=combined_styles,
+        background=rx.color_mode_cond(
+            light=dots.get("dots_background")["light"]["background"],
+            dark=dots.get("dots_background")["dark"]["background"],
         ),
-        height="100vh",
-        width="100%",
+        background_size=rx.color_mode_cond(
+            light=dots.get("dots_background")["light"]["background_size"],
+            dark=dots.get("dots_background")["dark"]["background_size"],
+        ),
+        background_color=rx.color_mode_cond(light="#F5F2EA", dark="#141618"),
     )
 
 
