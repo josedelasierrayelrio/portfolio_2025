@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://bsky.app/profile/lasierrayelrio.bsky.social"><img src="/my_web/assets/Duendecillo.png" alt="Markdownify" width="150"></a>
+  <a href="https://bsky.app/profile/lasierrayelrio.bsky.social"><img src="../my_web/assets/Duendecillo.png" alt="" width="150"></a>
   <br>
   Hi, I'm Sierra👋
   <br>

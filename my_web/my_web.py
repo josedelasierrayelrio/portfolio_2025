@@ -6,7 +6,7 @@ from .css.css import *
 
 
 class State(rx.State):
-    language: str = "es"
+    language: str = "en"
 
     @rx.event
     def set_language(self, new_language: str):
@@ -19,8 +19,21 @@ class State(rx.State):
 
 class Header:
     def __init__(self) -> None:
+        def creation_menu_item_language(language: str):
+            dict_lang: dict = get_selected_languages(language)
+            lang = str(get_selected_languages(language)[language])
+            print(lang)
+            print(dict_lang)
+            print(dict_lang[language]["language"])
+            print(dict_lang[language]["shortcut"])
+            return rx.menu.item(
+                dict_lang[language]["language"],
+                shortcut=dict_lang[language]["shortcut"].upper(),
+                on_click=State.set_language(language),
+            )
+
         self.email = rx.stack(
-            rx.hstack(
+            rx.hstack( 
                 rx.icon(
                     tag="mail",
                     size=16,
@@ -47,18 +60,19 @@ class Header:
         # Botón para cambiar de idioma
         self.language = rx.menu.root(
             rx.menu.trigger(
-                rx.button(
-                    rx.icon(tag="languages"),
-                    variant="ghost",
-                    style=css.get("button"),
-                    color=rx.color_mode_cond(light="#313131", dark="#F5F2EA"),
-                ),
+                rx.box(
+                    rx.button(
+                        rx.icon(tag="languages"),
+                        variant="ghost",
+                        style=css.get("button"),
+                        color=rx.color_mode_cond(light="#313131", dark="#F5F2EA"),
+                    )
+                )
             ),
             rx.menu.content(
-                rx.menu.item("Español", on_click=lambda: State.set_language("es")),
-                rx.menu.item("English", on_click=lambda: State.set_language("en")),
-                rx.menu.item("日本語", on_click=lambda: State.set_language("jp")),
-                rx.menu.item("Valyrian", on_click=lambda: State.set_language("val")),
+                creation_menu_item_language("es"),
+                creation_menu_item_language("en"),
+                creation_menu_item_language("val"),
             ),
         )
 
