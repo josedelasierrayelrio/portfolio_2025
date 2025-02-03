@@ -40,6 +40,18 @@ css: dict = {
     "button": {
         "background": "transparent",
     },
+    "badges": {
+        "padding": [
+            "0.15rem 0.35rem",
+            "0.15rem 0.35rem",
+            "0.15rem 1rem",
+            "0.15rem 1rem",
+            "0.15rem 1rem",
+        ],
+        "font_size": ["1rem", "1.4rem", "2rem", "2.5rem", "2.5rem"],
+        "width": "auto",
+        "height": "auto",
+    },
 }
 
 dots: dict = {
@@ -55,15 +67,15 @@ dots: dict = {
     },
     "@keyframes dots": {
         "0%": {"background_position": "0 0"},
-        "100%": {"background_position": "40px 40px"}
+        "100%": {"background_position": "40px 40px"},
     },
-    "animation": "dots 4s linear infinite alternate-reverse both"
+    "animation": "dots 4s linear infinite alternate-reverse both",
 }
 
 wave: dict = {
     "@keyframes wave": {
         "0%": {"transform": "rotate(15deg)"},
-        "100%": {"transform": "rotate(-25deg)"}
+        "100%": {"transform": "rotate(-25deg)"},
     },
-    "animation": "wave 0.8s cubic-bezier(0.9, 0.9, 0.9, 0.9) infinite alternate-reverse both"
+    "animation": "wave 0.8s cubic-bezier(0.9, 0.9, 0.9, 0.9) infinite alternate-reverse both",
 }

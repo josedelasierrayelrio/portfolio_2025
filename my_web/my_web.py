@@ -13,13 +13,18 @@ class State(rx.State):
         self.language = new_language
 
     @rx.var(cache=True)
+    def get_badges(self) -> list[str]:
+        return get_list_text(self.language, "badge")
+
+    @rx.var(cache=True)
     def get_greeting(self) -> str:
-        return get_greetings(self.language)
+        return get_text(self.language, "greeting")
 
 
 class Header:
     def __init__(self) -> None:
-        def creation_menu_item_language(language: str):
+        # Método que crea las opciones de seleccionar item
+        def creation_menu_item_language(language: str) -> rx.Component:
             dict_lang: dict = get_selected_languages(language)
             lang = str(get_selected_languages(language)[language])
             return rx.menu.item(
@@ -132,10 +137,23 @@ class Main:
             spacing="3",
         )
 
+        self.badge_stack_max = rx.hstack(
+            rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
+            spacing="3",
+            style=css.get("badges"),
+        )
+
+        self.badge_stack_min = rx.vstack(
+            rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
+            spacing="3",
+            style=css.get("badges"),
+        )
+
     def compile_desktop_component(self):
         return rx.tablet_and_desktop(
             rx.vstack(
                 self.name,
+                self.badge_stack_max,
                 style=css.get("main").get("property"),
             ),
         )
@@ -143,6 +161,20 @@ class Main:
     def build(self):
         self.box.children = [self.compile_desktop_component()]
         return self.box
+
+    # Crea los badgets bajo el saludo
+    def create_badges(self, title: str) -> rx.Component:
+        return rx.badge(
+            rx.text(title.upper()),
+            variant="solid",
+            padding=[
+                "0.15rem 0.35rem",
+                "0.15rem 0.35rem",
+                "0.15rem 1rem",
+                "0.15rem 1rem",
+                "0.15rem 1rem",
+            ],
+        )
 
 
 # Contenedor padre principal, desde donde se llama todo para su renderización. Es la landing page
@@ -154,7 +186,7 @@ def landing() -> rx.Component:
     animation_styles = {
         "@keyframes dots": {
             "0%": {"background-position": "0 0"},
-            "100%": {"background-position": "40px 40px"}
+            "100%": {"background-position": "40px 40px"},
         }
     }
 
@@ -162,7 +194,7 @@ def landing() -> rx.Component:
         **css.get("header"),
         **animation_styles,
         "animation": "dots 6s linear infinite alternate-reverse both",
-        "-webkit-animation": "dots 6s linear infinite alternate-reverse both"
+        "-webkit-animation": "dots 6s linear infinite alternate-reverse both",
     }
 
     return rx.vstack(
