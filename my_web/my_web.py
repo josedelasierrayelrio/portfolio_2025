@@ -39,9 +39,7 @@ class Header:
                     tag="mail",
                     size=16,
                 ),
-                rx.text(
-                    "josedelasierrayelrio@gmail.com",
-                ),
+                rx.text(EMAIL),
                 align="center",
                 justify="center",
                 spacing="2",
@@ -140,13 +138,11 @@ class Main:
         self.badge_stack_max = rx.hstack(
             rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
             spacing="3",
-            style=css.get("badges"),
         )
 
         self.badge_stack_min = rx.vstack(
             rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
             spacing="3",
-            style=css.get("badges"),
         )
 
     def compile_desktop_component(self):
@@ -164,16 +160,16 @@ class Main:
 
     # Crea los badgets bajo el saludo
     def create_badges(self, title: str) -> rx.Component:
+        print(css.get("badges"))
         return rx.badge(
-            rx.text(title.upper()),
+            rx.text(
+                title.upper(),
+                style=css.get("badges").get("badges_text"),
+            ),
+            color_scheme="gray",
             variant="solid",
-            padding=[
-                "0.15rem 0.35rem",
-                "0.15rem 0.35rem",
-                "0.15rem 1rem",
-                "0.15rem 1rem",
-                "0.15rem 1rem",
-            ],
+            radius="small",
+            style=css.get("badges"),
         )
 
 

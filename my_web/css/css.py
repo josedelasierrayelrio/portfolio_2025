@@ -41,16 +41,11 @@ css: dict = {
         "background": "transparent",
     },
     "badges": {
-        "padding": [
-            "0.15rem 0.35rem",
-            "0.15rem 0.35rem",
-            "0.15rem 1rem",
-            "0.15rem 1rem",
-            "0.15rem 1rem",
-        ],
-        "font_size": ["1rem", "1.4rem", "2rem", "2.5rem", "2.5rem"],
         "width": "auto",
         "height": "auto",
+        "badges_text": {
+            "font_size": ["0.5rem", "0.85rem", "0.9rem", "1rem", "1rem"],
+        },
     },
 }
 
