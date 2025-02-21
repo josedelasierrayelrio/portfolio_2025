@@ -1,8 +1,6 @@
 from . import en, es, val
 
 translations_dict = {"en": en.texts, "es": es.texts, "val": val.texts}
-EMAIL: str = "josedelasierrayelrio@gmail.com"
-
 
 # Devuelve el idioma
 def get_select_language(language: str) -> str:

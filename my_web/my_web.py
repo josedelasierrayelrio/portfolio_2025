@@ -3,6 +3,7 @@ from reflex.style import toggle_color_mode
 from rxconfig import config
 from .lang.translations import *
 from .css.css import *
+from .utils.const import *
 
 
 class State(rx.State):
@@ -44,7 +45,7 @@ class Header:
                 justify="center",
                 spacing="2",
             ),
-            color=rx.color_mode_cond(light="#313131", dark="#F5F2EA"),
+            color=rx.color_mode_cond(light=C_DEEP_BLUE, dark=C_LIGHT_BLUE),
         )
 
         # Botón de cambiar el tema
@@ -52,8 +53,8 @@ class Header:
             rx.color_mode_cond(light=rx.icon(tag="sun"), dark=rx.icon(tag="moon")),
             on_click=toggle_color_mode,
             variant="ghost",
-            style=css.get("button"),
-            color=rx.color_mode_cond(light="#313131", dark="#F5F2EA"),
+            style=css["button"],
+            color=rx.color_mode_cond(light=C_DEEP_BLUE, dark=C_LIGHT_BLUE),
         )
 
         # Botón para cambiar de idioma
@@ -63,8 +64,8 @@ class Header:
                     rx.button(
                         rx.icon(tag="languages"),
                         variant="ghost",
-                        style=css.get("button"),
-                        color=rx.color_mode_cond(light="#313131", dark="#F5F2EA"),
+                        style=css["button"],
+                        color=rx.color_mode_cond(light=C_DEEP_BLUE, dark=C_LIGHT_BLUE),
                     )
                 )
             ),
@@ -123,7 +124,7 @@ class Main:
                 State.get_greeting,
                 font_size=["2rem", "2.85rem", "4rem", "5rem", "5rem"],
                 font_weight="600",
-                style=css.get("effect_text"),
+                style=css["effect_text"],
             ),
             rx.text(
                 "👋🏼",
@@ -134,7 +135,7 @@ class Main:
             style={"border": "1px solid green"},
             spacing="3",
         )
-
+        # Crea los badges
         self.badge_stack_max = rx.hstack(
             rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
             spacing="3",
@@ -145,12 +146,24 @@ class Main:
             spacing="3",
         )
 
+        # Crea los enlaces a redes sociales
+        self.social_media_links = rx.hstack(
+            rx.foreach(
+                ICON_PATHS,
+                lambda paths: self.create_social_media_links(
+                    paths[0], paths[1], paths[2]
+                ),
+            ),
+            spacing="3",
+        )
+
     def compile_desktop_component(self):
         return rx.tablet_and_desktop(
             rx.vstack(
                 self.name,
                 self.badge_stack_max,
-                style=css.get("main").get("property"),
+                self.social_media_links,
+                style=css["main"]["property"],
             ),
         )
 
@@ -160,16 +173,42 @@ class Main:
 
     # Crea los badgets bajo el saludo
     def create_badges(self, title: str) -> rx.Component:
-        print(css.get("badges"))
         return rx.badge(
             rx.text(
                 title.upper(),
-                style=css.get("badges").get("badges_text"),
+                style=css["badges"]["badges_text"],
             ),
             color_scheme="gray",
             variant="solid",
             radius="small",
-            style=css.get("badges"),
+            style=css["badges"],
+        )
+
+    # Devuelve un componente con el social link
+    def create_social_media_links(
+        self, path: str, title: str, url: str | None
+    ) -> rx.Component:
+        return rx.link(
+            rx.hstack(
+                rx.image(
+                    src=path,
+                    width=css["social_media_links"]["width"],
+                    height=css["social_media_links"]["height"],
+                ),
+                rx.text(
+                    title,
+                    color=rx.color_mode_cond(
+                        light=css["social_media_links"]["color"]["light"],
+                        dark=css["social_media_links"]["color"]["dark"],
+                    ),
+                ),
+            ),
+            href=url,
+            #width=css["images"]["width"],
+            #height=css["images"]["height"],
+            weight="light",
+            underline="hover",
+            is_external="true",
         )
 
 
@@ -179,33 +218,24 @@ def landing() -> rx.Component:
     header = Header().build()
     main = Main().build()
 
-    animation_styles = {
-        "@keyframes dots": {
-            "0%": {"background-position": "0 0"},
-            "100%": {"background-position": "40px 40px"},
-        }
-    }
-
-    combined_styles = {
-        **css.get("header"),
-        **animation_styles,
-        "animation": "dots 6s linear infinite alternate-reverse both",
-        "-webkit-animation": "dots 6s linear infinite alternate-reverse both",
-    }
-
     return rx.vstack(
         header,
         main,
-        style=combined_styles,
+        style={
+            **css["header"],
+            **dots["animations"],
+        },  # Desempaqueta los diccionarios con **
         background=rx.color_mode_cond(
-            light=dots.get("dots_background")["light"]["background"],
-            dark=dots.get("dots_background")["dark"]["background"],
+            light=dots["dots_background"]["light"]["background"],
+            dark=dots["dots_background"]["dark"]["background"],
         ),
         background_size=rx.color_mode_cond(
-            light=dots.get("dots_background")["light"]["background_size"],
-            dark=dots.get("dots_background")["dark"]["background_size"],
+            light=dots["dots_background"]["light"]["background_size"],
+            dark=dots["dots_background"]["dark"]["background_size"],
         ),
-        background_color=rx.color_mode_cond(light="#F5F2EA", dark="#141618"),
+        background_color=rx.color_mode_cond(
+            light=C_BACKGROUND_LIGHT, dark=C_BACKGROUND_DARK
+        ),
     )
 
 
