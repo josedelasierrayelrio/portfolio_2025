@@ -5,6 +5,7 @@ texts = {
         "Desenrotllador de videojocs",
         "Redactor i analista",
     },
+    "CV":"Descarregar CV",
     "select_language": {
         "es": {"language": "Castellà", "shortcut": "es"},
         "en": {"language": "Anglés", "shortcut": "en"},

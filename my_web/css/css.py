@@ -2,12 +2,17 @@ import reflex as rx
 
 C_BACKGROUND_LIGHT: str = "#fffffc"
 C_BACKGROUND_DARK: str = "#1f1f1f"
-C_RED: str = "#e63946"
+C_RED: str = "#CE5151"
 C_LIGHT_BLUE: str = "#f1faee"
 C_BLUE: str = "#a8dadc"
 C_MIDDLE_BLUE: str = "#457b9d"
 C_DEEP_BLUE: str = "#1d3557"
 C_DARK: str = "#1f1f1f"
+C_ORANGE: str = "#FFB900"
+C_DEEP_ORANGE: str = "#FF8C00"
+C_LIGHT_ORANGE: str = "#FFF2CC"
+
+MAIN_SPACING: str = "3"
 
 # Diccionario de estilos CSS
 css: dict = {
@@ -40,7 +45,6 @@ css: dict = {
         "WebkitTextFillColor": rx.color_mode_cond(light="initial", dark="transparent"),
     },
     "mid_text": {
-        "border": "3px solid green",
         "height": "auto",
         "display": "flex",
         "alignItems": "center",
@@ -48,6 +52,12 @@ css: dict = {
     },
     "button": {
         "background": "transparent",
+        "_hover": {
+            "color-scheme": rx.color_mode_cond(
+                light=C_LIGHT_ORANGE,
+                dark=C_MIDDLE_BLUE,
+            ),
+        },
     },
     "badges": {
         "width": "auto",
@@ -57,21 +67,40 @@ css: dict = {
         },
     },
     "social_media_links": {
-        "width": "24px",
-        "height": "24px",
+        "image_width": "16px",
+        "image_height": "16px",
+        # "border": f"1.5px solid {C_DEEP_BLUE}",
+        "radius": "small",
+        "width": "auto",
+        "height": "auto",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "padding": "0.4em",
+        "link_text": {
+            "font_size": ["0.5rem", "0.85rem", "0.9rem", "1rem", "1rem"],
+        },
         "color": {
-            "light": "rgba(20, 22, 24, 0.7)",
-            "dark": "rgba(255, 255, 255, 0.7)",
+            "light": C_DEEP_BLUE,
+            "dark": C_LIGHT_BLUE,
         },
         "filter": {
             "light": "brightness(0) invert(0)",
             "dark": "brightness(0) invert(0)",
         },
+        "_hover_CV": {
+            "bg": rx.color_mode_cond(
+                light=C_DEEP_ORANGE,
+                dark=C_LIGHT_ORANGE,
+            ),
+        },
+        "_hover_other": {
+            "bg": rx.color_mode_cond(
+                light=C_LIGHT_ORANGE,
+                dark=C_MIDDLE_BLUE,
+            ),
+        },
     },
-    "images":{
-        "width": "100px",
-        "height": "100px",
-    }
 }
 
 dots: dict = {

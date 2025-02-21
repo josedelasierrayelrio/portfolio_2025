@@ -18,8 +18,12 @@ class State(rx.State):
         return get_list_text(self.language, "badge")
 
     @rx.var(cache=True)
-    def get_greeting(self) -> str:
+    def get_greetings(self) -> str:
         return get_text(self.language, "greeting")
+
+    @rx.var(cache=True)
+    def get_curriculum_text(self) -> str:
+        return get_text(self.language, "CV")
 
 
 class Header:
@@ -34,17 +38,23 @@ class Header:
                 on_click=State.set_language(language),
             )
 
-        self.email = rx.stack(
+        self.email = rx.link(
             rx.hstack(
-                rx.icon(
-                    tag="mail",
-                    size=16,
+                rx.image(
+                    src=ICON_MAIL,
+                    width=css["social_media_links"]["image_width"],
+                    height=css["social_media_links"]["image_height"],
                 ),
                 rx.text(EMAIL),
                 align="center",
                 justify="center",
                 spacing="2",
             ),
+            href=MAILTO,
+            is_external=True,
+            trim="normal",
+            underline="hover",
+            color_scheme="orange",
             color=rx.color_mode_cond(light=C_DEEP_BLUE, dark=C_LIGHT_BLUE),
         )
 
@@ -54,7 +64,7 @@ class Header:
             on_click=toggle_color_mode,
             variant="ghost",
             style=css["button"],
-            color=rx.color_mode_cond(light=C_DEEP_BLUE, dark=C_LIGHT_BLUE),
+            color=rx.color_mode_cond(light=C_DEEP_ORANGE, dark=C_LIGHT_BLUE),
         )
 
         # Botón para cambiar de idioma
@@ -67,7 +77,7 @@ class Header:
                         style=css["button"],
                         color=rx.color_mode_cond(light=C_DEEP_BLUE, dark=C_LIGHT_BLUE),
                     )
-                )
+                ),
             ),
             rx.menu.content(
                 creation_menu_item_language("es"),
@@ -121,29 +131,29 @@ class Main:
 
         self.name = rx.hstack(
             rx.text(
-                State.get_greeting,
+                State.get_greetings,
                 font_size=["2rem", "2.85rem", "4rem", "5rem", "5rem"],
                 font_weight="600",
                 style=css["effect_text"],
             ),
             rx.text(
-                "👋🏼",
+                HAND,
                 size="7",
                 style=wave,
             ),
             wrap="wrap",
             style={"border": "1px solid green"},
-            spacing="3",
+            spacing=MAIN_SPACING,
         )
         # Crea los badges
         self.badge_stack_max = rx.hstack(
             rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
-            spacing="3",
+            spacing=MAIN_SPACING,
         )
 
         self.badge_stack_min = rx.vstack(
             rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
-            spacing="3",
+            spacing=MAIN_SPACING,
         )
 
         # Crea los enlaces a redes sociales
@@ -154,16 +164,39 @@ class Main:
                     paths[0], paths[1], paths[2]
                 ),
             ),
-            spacing="3",
+            spacing=MAIN_SPACING,
+        )
+
+        self.download_cv = rx.button(
+            rx.link(
+                rx.text(
+                    State.get_curriculum_text,
+                    color=C_DEEP_BLUE,
+                    style=css["social_media_links"]["link_text"],
+                ),
+                weight="medium",
+                href=CV,
+                is_external=True,
+                trim="normal",
+                underline="none",
+            ),
+            radius="small",
+            background_color=C_ORANGE,
+            style=css["social_media_links"],
+            _hover=css["social_media_links"]["_hover_CV"],
         )
 
     def compile_desktop_component(self):
         return rx.tablet_and_desktop(
             rx.vstack(
                 self.name,
-                self.badge_stack_max,
-                self.social_media_links,
+                rx.hstack(
+                    self.download_cv,
+                    # self.badge_stack_max,
+                    self.social_media_links,
+                ),
                 style=css["main"]["property"],
+                spacing=MAIN_SPACING,
             ),
         )
 
@@ -188,27 +221,35 @@ class Main:
     def create_social_media_links(
         self, path: str, title: str, url: str | None
     ) -> rx.Component:
-        return rx.link(
-            rx.hstack(
-                rx.image(
-                    src=path,
-                    width=css["social_media_links"]["width"],
-                    height=css["social_media_links"]["height"],
-                ),
-                rx.text(
-                    title,
-                    color=rx.color_mode_cond(
-                        light=css["social_media_links"]["color"]["light"],
-                        dark=css["social_media_links"]["color"]["dark"],
+        return rx.button(
+            rx.link(
+                rx.hstack(
+                    rx.image(
+                        src=path,
+                        width=css["social_media_links"]["image_width"],
+                        height=css["social_media_links"]["image_height"],
                     ),
+                    rx.text(
+                        title,
+                        color=rx.color_mode_cond(
+                            light=css["social_media_links"]["color"]["light"],
+                            dark=css["social_media_links"]["color"]["dark"],
+                        ),
+                    ),
+                    align="center",
+                    justify="center",
+                    spacing="1",
                 ),
+                href=url,
+                weight="regular",
+                is_external=True,
+                trim="normal",
+                underline="none",
             ),
-            href=url,
-            #width=css["images"]["width"],
-            #height=css["images"]["height"],
-            weight="light",
-            underline="hover",
-            is_external="true",
+            radius="small",
+            background_color="rgba(255, 185, 0, 0)",
+            style=css["social_media_links"],
+            _hover=css["social_media_links"]["_hover_other"],
         )
 
 
@@ -217,7 +258,6 @@ class Main:
 def landing() -> rx.Component:
     header = Header().build()
     main = Main().build()
-
     return rx.vstack(
         header,
         main,
