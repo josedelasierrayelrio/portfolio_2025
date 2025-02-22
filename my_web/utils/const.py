@@ -27,10 +27,7 @@ ICON_PATHS: list = [
     [rx.color_mode_cond(light="/social_media/filled/dark_linkedin.png", dark="/social_media/filled/light_linkedin.png"), "LinkedIn", f"{LINKEDIN_LINK}"],
     [rx.color_mode_cond(light="/social_media/filled/dark_github_v2.png", dark="/social_media/filled/light_github_v2.png"), "GitHub", f"{GITHUB_LINK}"],
     [rx.color_mode_cond(light=DARK_ICON_MAIL, dark=LIGHT_ICON_MAIL), "Email", f"mailto:{EMAIL}"],
-    [rx.color_mode_cond(light="/social_media/filled/dark_twitch.png", dark="/social_media/filled/light_twitch.png"), "Twitch", f"{TWITCH_LINK}"],
-    [rx.color_mode_cond(light="/social_media/filled/dark_youtube.png", dark="/social_media/filled/light_youtube.png"), "Youtube", f"{YOUTUBE_LINK}"],
-    [rx.color_mode_cond(light="/social_media/filled/dark_tiktok.png", dark="/social_media/filled/light_tiktok.png"), "Discord", f"{TIKTOK_LINK}"],
-    [rx.color_mode_cond(light="/social_media/filled/dark_tiktok.png", dark="/social_media/filled/light_tiktok.png"), "Twitter", f"{TIKTOK_LINK}"],
-    [rx.color_mode_cond(light="/social_media/filled/dark_tiktok.png", dark="/social_media/filled/light_tiktok.png"), "Tiktok", f"{TIKTOK_LINK}"],
-    [rx.color_mode_cond(light="/social_media/filled/dark_tiktok.png", dark="/social_media/filled/light_tiktok.png"), "Tiktok", f"{TIKTOK_LINK}"],
+    #[rx.color_mode_cond(light="/social_media/filled/dark_twitch.png", dark="/social_media/filled/light_twitch.png"), "Twitch", f"{TWITCH_LINK}"],
+    #[rx.color_mode_cond(light="/social_media/filled/dark_youtube.png", dark="/social_media/filled/light_youtube.png"), "Youtube", f"{YOUTUBE_LINK}"],
+    #[rx.color_mode_cond(light="/social_media/filled/dark_discord.png", dark="/social_media/filled/light_discord.png"), "Discord", f"{DISCORD_LINK}"],
 ]

@@ -15,6 +15,8 @@ C_LIGHT_DOTS: str = ""
 C_DARK_DOTS: str = ""
 
 MAIN_SPACING: str = "3"
+# Diccionario de tamaños responsivos
+responsive: dict = {"breakpoints": ["0px", "30em", "48em", "62em", "80em", "96em"]}
 
 # Diccionario de estilos CSS
 css: dict = {
@@ -102,6 +104,10 @@ css: dict = {
                 dark=C_MIDDLE_BLUE,
             ),
         },
+    },
+    "box_wh": {
+        "width": "100%",
+        "height": "100vh",
     },
 }
 

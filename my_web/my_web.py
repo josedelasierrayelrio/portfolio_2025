@@ -148,19 +148,9 @@ class Main:
             style={"border": "1px solid green"},
             spacing=MAIN_SPACING,
         )
-        # Crea los badges
-        self.badge_stack_max = rx.hstack(
-            rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
-            spacing=MAIN_SPACING,
-        )
 
-        self.badge_stack_min = rx.vstack(
-            rx.foreach(State.get_badges, lambda title: self.create_badges(title)),
-            spacing=MAIN_SPACING,
-        )
-
-        # Crea los enlaces a redes sociales
-        self.social_media_links = rx.hstack(
+        # Crea los enlaces a redes sociales para el tamaño máximo
+        self.social_media_links_max = rx.flex(
             rx.foreach(
                 ICON_PATHS,
                 lambda paths: self.create_social_media_links(
@@ -168,8 +158,24 @@ class Main:
                 ),
             ),
             spacing=MAIN_SPACING,
+            flex_wrap="wrap",
+            width="100%",
         )
 
+        # Crea los enlaces a redes sociales para el tamaño mínimo
+        self.social_media_links_min = rx.flex(
+            rx.foreach(
+                ICON_PATHS,
+                lambda paths: self.create_social_media_links(
+                    paths[0], paths[1], paths[2]
+                ),
+            ),
+            spacing=MAIN_SPACING,
+            flex_wrap="wrap",
+            width="100%",
+        )
+
+        # Crea el botón de descargar currículum
         self.download_cv = rx.button(
             rx.link(
                 rx.text(
@@ -189,23 +195,30 @@ class Main:
             _hover=css["social_media_links"]["_hover_CV"],
         )
 
+    # Responsivo para tablet y desktop
     def compile_desktop_component(self):
         return rx.tablet_and_desktop(
             rx.vstack(
                 self.name,
                 rx.hstack(
                     self.download_cv,
-                    # self.badge_stack_max,
-                    self.social_media_links,
+                    self.social_media_links_max,
                 ),
                 style=css["main"]["property"],
                 spacing=MAIN_SPACING,
             ),
         )
 
-    def build(self):
-        self.box.children = [self.compile_desktop_component()]
-        return self.box
+    # Responsivo para mobile
+    def compile_mobile_component(self):
+        return rx.mobile_only(
+            rx.vstack(
+                self.name,
+                self.download_cv,
+                self.social_media_links_max,
+                spacing=MAIN_SPACING,
+            ),
+        )
 
     # Crea los badgets bajo el saludo
     def create_badges(self, title: str) -> rx.Component:
@@ -255,30 +268,48 @@ class Main:
             _hover=css["social_media_links"]["_hover_other"],
         )
 
+    def build(self):
+        self.box.children = [
+            self.compile_desktop_component(),
+            self.compile_mobile_component(),
+        ]
+        return self.box
+
 
 # Contenedor padre principal, desde donde se llama todo para su renderización. Es la landing page
 @rx.page(route="/")
 def landing() -> rx.Component:
     header = Header().build()
     main = Main().build()
+
     return rx.vstack(
-        header,
-        main,
-        style={
-            **css["header"],
-            **dots["animations"],
-        },  # Desempaqueta los diccionarios con **
-        background=rx.color_mode_cond(
-            light=dots["dots_background"]["light"]["background"],
-            dark=dots["dots_background"]["dark"]["background"],
+        rx.flex(
+            rx.box(header, style=css["box_wh"]),
+            rx.box(main, width="100%", height="100vh", style=css["box_wh"]),
+            direction="column",
+            width="100%",
+            height="100vh",
+            spacing="4",
+            style={
+                **css["header"],
+                **dots["animations"],
+                "minHeight": "100vh",
+                "overflow": "auto",
+            },
+            background=rx.color_mode_cond(
+                light=dots["dots_background"]["light"]["background"],
+                dark=dots["dots_background"]["dark"]["background"],
+            ),
+            background_size=rx.breakpoints(
+                initial=dots["dots_background"]["light"]["background_size"],
+                sm=dots["dots_background"]["dark"]["background_size"],
+            ),
+            background_color=rx.color_mode_cond(
+                light=C_BACKGROUND_LIGHT, dark=C_BACKGROUND_DARK
+            ),
         ),
-        background_size=rx.color_mode_cond(
-            light=dots["dots_background"]["light"]["background_size"],
-            dark=dots["dots_background"]["dark"]["background_size"],
-        ),
-        background_color=rx.color_mode_cond(
-            light=C_BACKGROUND_LIGHT, dark=C_BACKGROUND_DARK
-        ),
+        
+        style={"minHeight": "100vh", "overflow": "auto"},
     )
 
 
@@ -286,5 +317,10 @@ app = rx.App(
     theme=rx.theme(
         appearance="light",
         has_background=True,
+        style={
+            **responsive,
+            "minHeight": "100vh",
+            "width": "100%",
+        },
     ),
 )
