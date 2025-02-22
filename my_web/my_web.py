@@ -41,7 +41,10 @@ class Header:
         self.email = rx.link(
             rx.hstack(
                 rx.image(
-                    src=ICON_MAIL,
+                    src=rx.color_mode_cond(
+                        light=DARK_ICON_MAIL,
+                        dark=LIGHT_ICON_MAIL,
+                    ),
                     width=css["social_media_links"]["image_width"],
                     height=css["social_media_links"]["image_height"],
                 ),

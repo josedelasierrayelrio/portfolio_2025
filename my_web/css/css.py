@@ -9,8 +9,10 @@ C_MIDDLE_BLUE: str = "#457b9d"
 C_DEEP_BLUE: str = "#1d3557"
 C_DARK: str = "#1f1f1f"
 C_ORANGE: str = "#FFB900"
-C_DEEP_ORANGE: str = "#FF8C00"
+C_DEEP_ORANGE: str = "#F89A00"
 C_LIGHT_ORANGE: str = "#FFF2CC"
+C_LIGHT_DOTS: str = ""
+C_DARK_DOTS: str = ""
 
 MAIN_SPACING: str = "3"
 
