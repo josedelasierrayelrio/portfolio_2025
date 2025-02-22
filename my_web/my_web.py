@@ -217,6 +217,7 @@ class Main:
                 self.download_cv,
                 self.social_media_links_max,
                 spacing=MAIN_SPACING,
+                style=css["mobile_wh"]
             ),
         )
 
@@ -285,16 +286,16 @@ def landing() -> rx.Component:
     return rx.vstack(
         rx.flex(
             rx.box(header, style=css["box_wh"]),
-            rx.box(main, width="100%", height="100vh", style=css["box_wh"]),
+            rx.box(main, style=css["box_wh"]),
             direction="column",
-            width="100%",
-            height="100vh",
             spacing="4",
             style={
                 **css["header"],
                 **dots["animations"],
-                "minHeight": "100vh",
+                "minHeight": "auto",
                 "overflow": "auto",
+                "width": "100%",
+                "height": "100vh",
             },
             background=rx.color_mode_cond(
                 light=dots["dots_background"]["light"]["background"],
@@ -308,8 +309,12 @@ def landing() -> rx.Component:
                 light=C_BACKGROUND_LIGHT, dark=C_BACKGROUND_DARK
             ),
         ),
-        
-        style={"minHeight": "100vh", "overflow": "auto"},
+        style={
+            "minHeight": "auto",
+            "overflow": "auto",
+            "width": "100%",
+            "height": "auto",
+        },
     )
 
 
@@ -318,7 +323,6 @@ app = rx.App(
         appearance="light",
         has_background=True,
         style={
-            **responsive,
             "minHeight": "100vh",
             "width": "100%",
         },

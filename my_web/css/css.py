@@ -35,10 +35,11 @@ css: dict = {
     "main": {
         "property": {
             "width": "100%",
-            "min_height": "84vh",
+            "min_height": "80vh",
             "padding": "15rem 0rem",
             "align_items": "center",
             "justify_content": "start",
+            "overflow": "auto",
         }
     },
     "effect_text": {
@@ -106,6 +107,12 @@ css: dict = {
         },
     },
     "box_wh": {
+        "width": "100%",
+        "height": "100vh",
+    },
+    "mobile_wh": {
+        "minHeight": "auto",
+        "overflow": "auto",
         "width": "100%",
         "height": "100vh",
     },
