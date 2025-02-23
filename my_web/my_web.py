@@ -25,6 +25,10 @@ class State(rx.State):
     def get_curriculum_text(self) -> str:
         return get_text(self.language, "CV")
 
+    @rx.var(cache=True)
+    def get_about_me_text(self) -> str:
+        return get_text(self.language, "about_me")
+
 
 class Header:
     def __init__(self) -> None:
@@ -115,9 +119,6 @@ class Header:
         return rx.hstack(
             *self.compile_component(),
             width="100%",
-            style={
-                "border": "1px solid red",
-            },
         )
 
 
@@ -132,10 +133,10 @@ class Main:
             },
         )
 
-        self.name = rx.hstack(
+        self.greetings = rx.hstack(
             rx.text(
                 State.get_greetings,
-                font_size=["2rem", "2.85rem", "4rem", "5rem", "5rem"],
+                font_size=["1rem", "1.5rem", "1.8rem", "2rem", "3.5rem"],
                 font_weight="600",
                 style=css["effect_text"],
             ),
@@ -145,25 +146,18 @@ class Main:
                 style=wave,
             ),
             wrap="wrap",
-            style={"border": "1px solid green"},
             spacing=MAIN_SPACING,
+        )
+        # Texto sobre mí
+        self.about_me_text = rx.text(
+            State.get_about_me_text,
+            font_size=["0.3rem", "0.85rem", "1rem", "1rem", "1.2rem"],
+            as_="p",
+            style=css["about_me_text"],
         )
 
         # Crea los enlaces a redes sociales para el tamaño máximo
-        self.social_media_links_max = rx.flex(
-            rx.foreach(
-                ICON_PATHS,
-                lambda paths: self.create_social_media_links(
-                    paths[0], paths[1], paths[2]
-                ),
-            ),
-            spacing=MAIN_SPACING,
-            flex_wrap="wrap",
-            width="100%",
-        )
-
-        # Crea los enlaces a redes sociales para el tamaño mínimo
-        self.social_media_links_min = rx.flex(
+        self.social_media_links = rx.flex(
             rx.foreach(
                 ICON_PATHS,
                 lambda paths: self.create_social_media_links(
@@ -199,10 +193,20 @@ class Main:
     def compile_desktop_component(self):
         return rx.tablet_and_desktop(
             rx.vstack(
-                self.name,
                 rx.hstack(
-                    self.download_cv,
-                    self.social_media_links_max,
+                    rx.vstack(
+                        self.greetings,
+                        self.about_me_text,
+                        rx.hstack(
+                            self.download_cv,
+                            self.social_media_links,
+                        ),
+                        style=css["mid_text"],
+                    ),
+                    rx.image(
+                        src=AVATAR_LINK,
+                        style=css["avatar"]),
+                    style={"border":"1px solid blue"}
                 ),
                 style=css["main"]["property"],
                 spacing=MAIN_SPACING,
@@ -213,11 +217,11 @@ class Main:
     def compile_mobile_component(self):
         return rx.mobile_only(
             rx.vstack(
-                self.name,
+                self.greetings,
                 self.download_cv,
-                self.social_media_links_max,
+                self.social_media_links,
                 spacing=MAIN_SPACING,
-                style=css["mobile_wh"]
+                style=css["mobile_wh"],
             ),
         )
 

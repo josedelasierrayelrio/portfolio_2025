@@ -55,6 +55,25 @@ css: dict = {
         "alignItems": "center",
         "justifyContent": "center",
     },
+    "about_me_text": {
+        "align": "center",
+        "justifyContent": "center",
+        "trim": "normal",
+        "margin": "0.8rem 25%",
+        "border": "1px solid white"
+    },
+    "avatar": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "width": ["100px", "200px", "300px", "400px"],
+        "height": "auto",
+        "border_radius": "10px 10px",
+        "border": rx.color_mode_cond(
+                light=f"0.5px solid {C_DEEP_BLUE}",
+                dark=f"0.5px solid {C_LIGHT_BLUE}",
+            ),
+    },
     "button": {
         "background": "transparent",
         "_hover": {
@@ -121,7 +140,7 @@ css: dict = {
 dots: dict = {
     "dots_background": {
         "light": {
-            "background": "radial-gradient(circle, rgba(0,0,0,0.09) 1.5px, transparent 1px)",
+            "background": "radial-gradient(circle, rgba(0,0,0,0.15) 1.5px, transparent 1px)",
             "background_size": "30px 30px",
         },
         "dark": {

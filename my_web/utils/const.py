@@ -18,6 +18,8 @@ INSTAGRAM_LINK: str = ""
 SPOTIFY_LINK: str = ""
 LINK_TREE: str = "https://linktr.ee/lasierrayelrio"
 
+AVATAR_LINK: str = "/perfil_bn.jpg"
+
 CV: str = "/CV_JP_2024.pdf"
 LIGHT_ICON_CV: str = "/social_media/filled/light_curriculum.png"
 LIGHT_ICON_MAIL: str = "/social_media/filled/light_email.png"
